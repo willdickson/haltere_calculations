@@ -1,0 +1,9 @@
+from haltere_calculations import haltere_position
+from haltere_calculations import haltere_velocity
+from haltere_calculations import coriolis_force
+from haltere_calculations import normal_coriolis_force
+
+haltere_position(verbose=False)
+haltere_velocity(verbose=False)
+coriolis_force(verbose=False)
+normal_coriolis_force(verbose=True)
