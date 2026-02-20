@@ -1,53 +1,43 @@
 import sympy
-sympy.init_printing()
 
-haltere_symbols = {
-        't'     : sympy.Symbol('t'),
-        'L'     : sympy.Symbol('L'),
-        'b'     : sympy.Symbol('b'),
-        'theta' : sympy.Function('theta'),
-        'beta'  : sympy.Symbol('beta'),
-        }
 
-haltere_axes = {
-        'right' : sympy.Matrix([
-            sympy.sin(haltere_symbols['beta']), 
-            sympy.cos(haltere_symbols['beta']), 
-            0,
-            ]),
-        'left'  : sympy.Matrix([
-            -sympy.sin(haltere_symbols['beta']), 
-            sympy.cos(haltere_symbols['beta']), 
-            0,
-            ]),
-        }
-
-def haltere_velocity(verbose=False):
+def haltere_velocity(param, verbose=False):
     """
     Calculates symbolic expressions for the velocities of right and left
     haltere end knobs as functions of time and the basic haltere parameters.
-    Note, the basic parameters can be found in the haltere_symbols dictionary
-    defined in this module. 
+
+    Parameters
+    ----------
+    param : dict
+        dictionary containing the haltere parameters where 
+        param = {
+            't'     : sympy.Symbol for time,
+            'L'     : sympy.Symbol for haltere length (from base to end knob CM),
+            'b'     : sympy.Symbol for haltere separation (widthwise),
+            'beta'  : sympy.Symbol for haltere tilt angle, 
+            'theta' : sympy.Function  for haltere stroke position angle,
+        }
 
     **kwargs (dict)
         verbose : bool
             Specifies whether or not to print verbose information (default=False)
 
-    Returns:
-        vel_knob_r : sympy.Matrix  
-            Right haltere end knob velocity vector, shape=(3,1)
+    Returns
+    -------
+    vel_knob_r : sympy.Matrix  
+        Right haltere end knob velocity vector, shape=(3,1)
             
 
-        vel_know_l : sympy.Matrix 
-            Left haltere end knob velocity vector, shape=(3,1)
+    vel_know_l : sympy.Matrix 
+        Left haltere end knob velocity vector, shape=(3,1)
             
     """
 
     # Get haltere position vectors
-    pos_knob_r, pos_knob_l = haltere_position(verbose=False)
+    pos_knob_r, pos_knob_l = haltere_position(param, verbose=False)
 
     # Compute velocities of right and left haltere knobs
-    t = haltere_symbols['t']
+    t = param['t']
     vel_knob_r = sympy.diff(pos_knob_r, t)
     vel_knob_l = sympy.diff(pos_knob_l, t)
 
@@ -64,20 +54,30 @@ def haltere_velocity(verbose=False):
 
 
 
-def haltere_position(verbose=False):
+def haltere_position(param, verbose=False):
     """
     Calculates symbolic expressions for the (vectory) positions of the right
     and left haltere end knobs as a functions of time and the basic haltere
-    parameters. Note, the basic parameters can be found in the haltere_symbols
-    dictionary defined in this module. 
+    parameters.     
+
+    Parameters
+    ----------
+    param : dict
+        dictionary containing the haltere parameters where 
+        param = {
+            't'     : sympy.Symbol for time,
+            'L'     : sympy.Symbol for haltere length (from base to end knob CM),
+            'b'     : sympy.Symbol for haltere separation (widthwise),
+            'beta'  : sympy.Symbol for haltere tilt angle, 
+            'theta' : sympy.Function  for haltere stroke position angle,
+        }
 
     **kwargs (dict)
         verbose : bool 
             Specifies whether or not to print verbose information (default=False)
-      
 
-    Returns:
-
+    Returns
+    -------
         pos_knob_r : sympy.Matrix 
             Right haltere end knob position vector, shape=(3,1)
 
@@ -85,11 +85,11 @@ def haltere_position(verbose=False):
             Left haltere end knob position vector, shape=(3,1)
     """
 
-    t = haltere_symbols['t']
-    L = haltere_symbols['L']
-    b = haltere_symbols['b']
-    theta = haltere_symbols['theta']
-    beta = haltere_symbols['beta']
+    t = param['t']
+    L = param['L']
+    b = param['b']
+    theta = param['theta']
+    beta = param['beta']
 
     # Right and left haltere knob position vectors without rotation and offset
     pos0_knob_r = sympy.Matrix([L, 0, 0])
@@ -157,9 +157,5 @@ def haltere_position(verbose=False):
         sympy.pprint(pos_knob_l)
 
     return pos_knob_r, pos_knob_l
-
-
-
-
 
 
