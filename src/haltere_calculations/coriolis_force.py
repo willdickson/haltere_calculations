@@ -138,7 +138,26 @@ def coriolis_force(param, verbose=False):
 def normal_coriolis_force(param, verbose=False):
     """
     Calculates symbolic expressions for the component of the forces acting on
-    the right and left halteres normal to the haltere rotation axes.
+    the right and left halteres which are normal to the haltere rotation axes.
+
+    **kwargs (dict)
+        verbose : bool
+            Specifies whether or not to print verbose information (default=False)
+
+    Returns:
+        force_r : sympy.Matrix
+            vector of symbolic expressions for force acting on the right
+            haltere end knob, shape=(3,1)
+
+        force_l : sympy.Matrix
+            vector of symbolic expressions for force acting on the left
+            haltere end knob, shape=(3,1)
+
+        w_contrib_dict : dict
+            force contributions due to w_i for right and left wings where
+            w_contrib_dict[side][w_i] = vector of symbolic expressions for
+            force acting on the side (= left or right) wing due to angular
+            velocity component w_i.
     """
 
     # Right haltere rotation axis

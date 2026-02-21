@@ -12,8 +12,8 @@ class CosFunc(sympy.Function):
     def eval(cls, amp, freq, t):
         return amp*sympy.cos(2*sympy.pi*freq*t)
 
-explicit = False 
-verbose = True
+explicit = True 
+verbose = False 
 
 param = {
         't'     : sympy.Symbol('t'),        # time
@@ -40,9 +40,24 @@ haltere_velocity(param, verbose=verbose)
 coriolis_force(param, verbose=verbose)
 force_r, force_l, w_contrib = normal_coriolis_force(param, verbose=verbose)
 
-f_yaw = w_contrib['right'][param['w_3']]
 
+f_pitch = w_contrib['right'][param['w_1']]
+print()
+print('f pitch = ')
+sympy.pprint(f_pitch)
+print('-'*50)
+
+f_roll = w_contrib['right'][param['w_2']]
+print()
+print('f roll')
+sympy.pprint(f_roll)
+print('-'*50)
+
+f_yaw = w_contrib['right'][param['w_3']]
+print()
+print('f yaw')
 sympy.pprint(f_yaw)
+print('-'*50)
 
 
 
